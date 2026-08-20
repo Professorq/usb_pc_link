@@ -3,21 +3,15 @@ usb_pc_link
 
 Complete the connection protocol with Philips USB HiFi on Linux and MacOS
 
-It works with Philips MC-M530. I guess it will work with any other USB PC Link Hifi but I can not test.
+It works with Philips MC-M530.
 
-Compile
-------- 
-Dependency: 
+I guess it may work with any other USB PC Link Hifi. Make a pull request for working devices
 
-    libusb-dev
+Compile and Run
+-------
 
-On MacOS:
-
-    brew install libusb libusb-compat
-
-Compile:
-
-    gcc -Wall usb_pc_link.c -o usb_pc_link -lusb
+   cargo build
+   sudo ./target/debug/usb_pc_link
 
 
 Use
@@ -29,7 +23,7 @@ Run as root `./usb_pc_link`
 Linux: Choose `Set [Philips Audio Set]` as sound card (alsa or pulseaudio)
 
 Linux Debian 12 (pipewire):
-* Three output devices appear after plugging in: 
+* Three output devices appear after plugging in:
     - `Digital Output (S/PDIF) - Philips Audio Set`: does not work
     - `Analog Output - No Bass Boost - Philips Audio Set`: works
     - `Analog Output - Bass Boost - Philips Audio Set`: works
@@ -60,3 +54,9 @@ I find two usb packet that seems to do it.
 
     #define VENDOR_ID  0x0471
     #define PRODUCT_ID 0x0111
+
+Thanks
+===========
+This is a simple port of Henri D's [usb_pc_link](https://github.com/nheir/usb_pc_link)
+
+With all libusb interop wrapping provied by [rusb](https://github.com/a1ien/rusb)
