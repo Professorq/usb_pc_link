@@ -1,4 +1,4 @@
-extern crate rusb;
+use rusb;
 use std::process;
 use std::time::Duration;
 
@@ -51,3 +51,15 @@ pub fn connect<T: rusb::UsbContext>(device: rusb::Device<T>) {
 	.unwrap_or_else(|_| process::exit(-4));
 }
 
+pub struct HandleHotplug {
+}
+
+impl<T: rusb::UsbContext> rusb::Hotplug<T> for HandleHotplug {
+    fn device_arrived(&mut self, device: rusb::Device<T>) {
+	connect(device);
+    }
+
+    fn device_left(&mut self, _device: rusb::Device<T>) {
+	// Nothing to do
+    }
+}

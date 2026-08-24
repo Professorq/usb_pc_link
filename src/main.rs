@@ -1,7 +1,7 @@
-extern crate rusb;
+use rusb;
 use std::process;
 
-pub mod pc_link;
+mod pc_link;
 
 fn main() {
     rusb::devices().unwrap().iter()
