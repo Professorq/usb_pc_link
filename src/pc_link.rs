@@ -50,16 +50,3 @@ pub fn connect<T: rusb::UsbContext>(device: rusb::Device<T>) {
     handle.write_control(REQUEST_TYPE, REQUEST, VALUE, INDEX[1], &[0xff], duration)
 	.unwrap_or_else(|_| process::exit(-4));
 }
-
-pub struct HandleHotplug {
-}
-
-impl<T: rusb::UsbContext> rusb::Hotplug<T> for HandleHotplug {
-    fn device_arrived(&mut self, device: rusb::Device<T>) {
-	connect(device);
-    }
-
-    fn device_left(&mut self, _device: rusb::Device<T>) {
-	// Nothing to do
-    }
-}
