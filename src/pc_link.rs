@@ -1,5 +1,6 @@
 use rusb;
 use std::process;
+use std::sync::mpsc;
 use std::time::Duration;
 
 pub const VENDOR_ID: u16 =  0x0471;
@@ -49,4 +50,25 @@ pub fn connect<T: rusb::UsbContext>(device: rusb::Device<T>) {
 	.unwrap_or_else(|_| process::exit(-3));
     handle.write_control(REQUEST_TYPE, REQUEST, VALUE, INDEX[1], &[0xff], duration)
 	.unwrap_or_else(|_| process::exit(-4));
+}
+
+pub struct HandleHotplugChan {
+    notify: mpsc::Sender<()>
+}
+
+impl HandleHotplugChan {
+    pub fn from(notify: mpsc::Sender<()>) -> HandleHotplugChan {
+	return Self {
+	    notify
+	}
+    }
+}
+
+impl<T: rusb::UsbContext> rusb::Hotplug<T> for HandleHotplugChan {
+    fn device_arrived(&mut self, _device: rusb::Device<T>) {
+	let _ = self.notify.send(());
+    }
+    fn device_left(&mut self, _device: rusb::Device<T>) {
+	// Nothing to cleanup
+    }
 }
