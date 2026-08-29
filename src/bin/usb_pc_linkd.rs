@@ -1,9 +1,8 @@
-
-use rusb::UsbContext;
 use std::process;
+use std::sync::mpsc;
 use std::time::Duration;
-use usb_pc_link::pc_link::{VENDOR_ID, PRODUCT_ID};
-use usb_pc_link::pc_link_async::HandleHotplug;
+use usb_pc_link::pc_link;
+use usb_pc_link::pc_link::{VENDOR_ID, PRODUCT_ID, HandleHotplugChan};
 
 fn main() {
     let context = rusb::GlobalContext::default();
@@ -12,19 +11,24 @@ fn main() {
 	panic!("libusb does not support hotplug on this system");
     }
 
+    let (tx, rx): (mpsc::Sender<()>, mpsc::Receiver<()>) = mpsc::channel();
+
     rusb::HotplugBuilder::new()
 	.vendor_id(VENDOR_ID)
 	.product_id(PRODUCT_ID)
 	.enumerate(true)
 	.register(
 	    context,
-	    Box::new(HandleHotplug{})
+	    Box::new(HandleHotplugChan::from(tx))
 	).ok()
 	.or_else(|| process::exit(-1));
 
     loop {
-	context.handle_events(Some(Duration::from_secs(10)))
-	    .unwrap();
+	rusb::devices().unwrap().iter()
+	    .filter(|device| pc_link::matches(device))
+	    .next()
+	    .map(|device| pc_link::connect(device));
+
+	rx.recv();
     }
 }
-
