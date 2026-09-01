@@ -20,6 +20,7 @@
 *.out
 *.app
 
+*.service
 
 # Added by cargo
 
