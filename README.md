@@ -5,24 +5,30 @@ Complete the connection protocol with Philips USB HiFi on Linux and MacOS
 
 It works with Philips MC-M530.
 
-Compile and Run
+Hotplug Listener Service
+-------
+Run the usb_pc_linkd daemon as a systemd service: 
+```bash
+make install
+```
+When the stereo is plugged in to the usb port or turned on, the usb_pc_linkd sends sends the control
+messages that configures it as an audio sink.
+
+(Linux only)
+
+Compile and Run One-off
 -------
 
-   cargo build
-   sudo ./target/debug/usb_pc_link
-
+```bash
+cargo build
+sudo ./target/debug/usb_pc_link
+```
 
 Use
 ---
 Switch on and plug the HiFi. This needs to be run every time after plugging in.
 
 Run as root `./usb_pc_link`
-
-Or, run the usb_pc_linkd daemon as a systemd service: 
-```bash
-make install
-```
-(Linux only)
 
 Linux: Choose `Set [Philips Audio Set]` as sound card (alsa or pulseaudio)
 
