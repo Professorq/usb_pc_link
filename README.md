@@ -5,14 +5,24 @@ Complete the connection protocol with Philips USB HiFi on Linux and MacOS
 
 It works with Philips MC-M530.
 
-I guess it may work with any other USB PC Link Hifi. Make a pull request for working devices
+Hotplug Listener Service
+-------
+Run the usb_pc_linkd daemon as a systemd service: 
+```bash
+make install
+```
+When the stereo is plugged in to the usb port or turned on, the usb_pc_linkd sends sends the control
+messages that configures it as an audio sink.
 
-Compile and Run
+(Linux only)
+
+Compile and Run One-off
 -------
 
-   cargo build
-   sudo ./target/debug/usb_pc_link
-
+```bash
+cargo build
+sudo ./target/debug/usb_pc_link
+```
 
 Use
 ---
