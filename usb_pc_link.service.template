@@ -1,0 +1,13 @@
+[Unit]
+Description=Watches for Hotplug events for USB PC Link device
+After=desktop.service
+
+[Service]
+Type=exec
+ExecStart={{project_root}}/target/{{profile}}/usb_pc_linkd
+Restart=always
+Group=plugdev
+
+[Install]
+WantedBy=multi-user.target
+
