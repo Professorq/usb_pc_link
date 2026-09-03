@@ -5,8 +5,6 @@ Complete the connection protocol with Philips USB HiFi on Linux and MacOS
 
 It works with Philips MC-M530.
 
-I guess it may work with any other USB PC Link Hifi. Make a pull request for working devices
-
 Compile and Run
 -------
 
@@ -19,6 +17,12 @@ Use
 Switch on and plug the HiFi. This needs to be run every time after plugging in.
 
 Run as root `./usb_pc_link`
+
+Or, run the usb_pc_linkd daemon as a systemd service: 
+```bash
+make install
+```
+(Linux only)
 
 Linux: Choose `Set [Philips Audio Set]` as sound card (alsa or pulseaudio)
 
