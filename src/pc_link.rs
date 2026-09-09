@@ -52,11 +52,15 @@ pub fn connect<T: rusb::UsbContext>(device: rusb::Device<T>) {
 	.unwrap_or_else(|_| process::exit(-4));
 }
 
+// Used in the usb_pc_linkd service
+#[allow(dead_code)]
 pub struct HandleHotplugChan {
     notify: mpsc::Sender<()>
 }
 
 impl HandleHotplugChan {
+    // Used in the usb_pc_linkd service
+    #[allow(dead_code)]
     pub fn from(notify: mpsc::Sender<()>) -> HandleHotplugChan {
 	return Self {
 	    notify

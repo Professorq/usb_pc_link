@@ -1,6 +1,5 @@
 use std::process;
 use std::sync::mpsc;
-use std::time::Duration;
 use usb_pc_link::pc_link;
 use usb_pc_link::pc_link::{VENDOR_ID, PRODUCT_ID, HandleHotplugChan};
 
@@ -29,6 +28,6 @@ fn main() {
 	    .next()
 	    .map(|device| pc_link::connect(device));
 
-	rx.recv();
+	let _ = rx.recv();
     }
 }
